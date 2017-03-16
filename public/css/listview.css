@@ -1,0 +1,77 @@
+th {
+    transition: 0.1s;
+}
+
+.listview {
+    width: 100%;
+    border-spacing: 0px;
+    
+    border-bottom: 10px solid #63c6f1;
+}
+
+.listview tr {
+    height: 28px;
+    cursor: pointer;
+}
+
+.listview tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+.listview tr:nth-child(even) {
+    background-color: #eef0f0;
+}
+
+.listview th, .listview td {
+    text-align: left;
+    padding: 7px 12px;
+    
+    line-height: 14px;
+    font-size: 14px;
+    color: rgb(102,102,102);
+}
+
+.listview th {
+    padding-top: 9px;
+    
+    background: rgb(226,226,224);
+    font-family: Avenir-Heavy;
+}
+
+.listview th:hover, .listview th:active {
+    background-color: rgb(214,214,211);
+}
+
+.listview td {
+    font-family: Avenir-Light;
+}
+
+.adder {
+    color: #3399ff;
+}
+
+.delete-cell {
+    text-align: right !important;
+}
+
+.delete-cell img {
+    display: inline-block;
+    height: 14px;
+}
+
+@media screen and (max-width: 840px) {
+    
+    .listview tr {
+        height: 40px;
+    }
+    
+    .listview th, .listview td {
+        line-height: 16px;
+        font-size: 16px;
+    }
+    
+    .delete-cell img {
+        height: 16px;
+    }
+    
+}

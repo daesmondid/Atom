@@ -1,0 +1,43 @@
+@font-face
+{
+    font-family: AvenirNext-UltraLight;
+    src: url(../fonts/AvenirNext-UltraLight.ttf);
+}
+
+@font-face
+{
+    font-family: Avenir-Heavy;
+    src: url(../fonts/Avenir-Heavy.ttf);
+}
+
+@font-face
+{
+    font-family: Avenir-Medium;
+    src: url(../fonts/Avenir-Medium.ttf);
+}
+
+@font-face
+{
+    font-family: Phosphate-Solid;
+    src: url(../fonts/Phosphate-Solid.ttf);
+}
+
+@font-face
+{
+    font-family: Avenir-Light;
+    src: url(../fonts/Avenir-Light.ttf);
+}
+
+div {
+    transition: 0.1s;
+}
+
+a:link, a:visited
+{
+    text-decoration: none;
+    color: red;
+}
+
+html {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
