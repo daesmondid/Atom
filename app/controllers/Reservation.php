@@ -119,7 +119,8 @@
                 return $result;
             }
             
-            $conn = mysqli_connect("localhost","atmosid_user05","gNxqT7s+=sQd","atmosid_oms_footgoal_production");
+//            $conn = mysqli_connect("localhost","atmosid_user05","gNxqT7s+=sQd","atmosid_oms_footgoal_production");
+            $conn = mysqli_connect("localhost","root","","atom_footgoal");
             $sql = "SELECT name FROM object_device WHERE user_id = (SELECT user_id FROM object_reservation WHERE id = $id)";
             $result = mysqli_query($conn,$sql);
             $tokens = array();

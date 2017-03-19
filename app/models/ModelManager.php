@@ -7,15 +7,15 @@
         
         public function dbConnect() {
             
-            $server = "localhost";
-            $DBuser = "atmosid_user05";
-            $DBpassword = "gNxqT7s+=sQd";
-            $DBname = "atmosid_oms_footgoal_production";
-            
 //            $server = "localhost";
-//            $DBuser = "root";
-//            $DBpassword = "";
+//            $DBuser = "atmosid_user05";
+//            $DBpassword = "gNxqT7s+=sQd";
 //            $DBname = "atmosid_oms_footgoal_production";
+            
+            $server = "localhost";
+            $DBuser = "root";
+            $DBpassword = "";
+            $DBname = "atom_footgoal";
             
             $conn = new mysqli($server, $DBuser, $DBpassword, $DBname);
             

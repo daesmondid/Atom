@@ -21,7 +21,7 @@
             $server = "localhost";
             $DBuser = "root";
             $DBpassword = "";
-            $DBname = "atmosid_oms_footgoal_production";
+            $DBname = "atom_footgoal";
             
             $this->conn = new mysqli($server, $DBuser, $DBpassword, $DBname);
             
