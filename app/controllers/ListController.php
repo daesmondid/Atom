@@ -1,48 +1,53 @@
 <?php
-    require_once 'FrameDefault.php';
 
-    class Client extends FrameDefault {
+    class ListController extends Controller {
+    	
+    	public function listMain($model = '', $columns = [], $order = 'id') {
+    	
+    		//$model = 'student';
+    	
+//     		$this->model('Constant');
+//     		$constant = new Constant();
+    	
+//     		$this->model('Frame');
+//     		$frame = new Frame($model, 'list');
+//     		$this->view('frame/index', ['constant' => $constant, 'frame' => $frame]);
+    	
+//     		$this->model('ListView');
+//     		$listView = new ListView($model, $columns, $order);
+//     		$this->view('content/listview', ['constant' => $constant, 'content' => $listView]);
+
+    		//echo $this->params;
+    	
+    	}
         
         public function index() {
             
-            $this->listMain('client', ['id', 'name', 'birthdate', 'birthmonth','address','phone','password','email']);
+        	$this->model('AtomConstants');
+        	$atomConstants = new AtomConstants();
+        	
+        	$this->view('main/ListView', ['atomConstants' => $atomConstants]);
             
         }
         
-        public function detail() {
-            
-            $this->formDetail('client', 'name', [['address','phone','email'],['birthdate','birthmonth'],['id','password']]);
-            
+        public function setDisplay($display) {
+        
+        	$this->display = $display;
+        
         }
         
-        public function edit() {
-            
-            $this->formEdit('client', 'name', [['address','phone','email'],['birthdate','birthmonth'],['id','password']]);
-            
+        public function setAccess($access) {
+        
+        	$this->access = $access;
+        
         }
         
-        public function add() {
-            
-            $this->formAdd('client', 'name', [['address','phone','email'],['birthdate','birthmonth'],['id','password']]);
-            
+        public function setGroup($group) {
+        
+        	$this->group = $gorup;
+        
         }
         
-        public function addSave() {
-            
-            $this->processAddSave('client', ['name', 'birthdate', 'birthmonth','address','phone','password','email']);
-            
-        }
         
-        public function editSave() {
-            
-            $this->processEditSave('client', ['name', 'birthdate', 'birthmonth','address','phone','password','email']);
-            
-        }
-        
-        public function delete() {
-            
-            $this->processDelete('client');
-            
-        }
         
     }

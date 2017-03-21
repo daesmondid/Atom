@@ -14,7 +14,7 @@
             
             //Create Entity
             $this->model('Entity');
-            $entity = new Entity($_POST["entName"], $_POST["entDisplay"], 0, NULL);
+            $entity = new EntityLegacy($_POST["entName"], $_POST["entDisplay"], 0, NULL);
             
             //Add Entity to DataControl
             $this->model('DataControl');
