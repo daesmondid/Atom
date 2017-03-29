@@ -40,6 +40,16 @@
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/extensions/pace.css">
 <link rel="stylesheet" type="text/css"
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/forms/selects/select2.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/katex.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/monokai-sublime.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.snow.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.bubble.css">
 <!-- END VENDOR CSS-->
 <!-- BEGIN ROBUST CSS-->
 <link rel="stylesheet" type="text/css"
@@ -144,8 +154,8 @@
 						<li><a href="dashboard-fitness.html" data-i18n="nav.dash.fitness"
 							class="menu-item">Fitness</a></li>
 					</ul></li>
-				
-						
+
+
 				<li class=" navigation-header"><span data-i18n="nav.category.tables">System</span><i
 					data-toggle="tooltip" data-placement="right"
 					data-original-title="Tables" class="icon-ellipsis icon-ellipsis"></i>
@@ -681,69 +691,69 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Entities</h4>
+									<h4 class="card-title">Create new <?=$data['entity']->getDisplayName()?></h4>
 									<a class="heading-elements-toggle"><i
 										class="icon-ellipsis font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
-											<li><a href="add"><i class="icon-plus4"></i></a></li>
 											<li><a data-action="reload"><i class="icon-reload"></i></a></li>
 											<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+											<li><a href="list"><i class="icon-menu5"></i></a></li>
 										</ul>
 									</div>
 								</div>
-								<div class="card-body collapse in">
-									<div class="card-block card-dashboard">
-										<table
-											class="table table-striped table-bordered zero-configuration">
-											<thead>
-												<tr>
-													<?php
-													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
-													}
-													?>
-												</tr>
-											</thead>
-											<tbody>
+								<div class="card-body">
+									<div class="card-block">
+										<form class="form" action="addprocess" method="POST">
+											<div class="form-body">
+												<h4 class="form-section">
+													General Entry
+												</h4>
 												<?php
-												foreach ($data['entity']->getDataArray() as $rowOuter) {
-													echo '<tr  onclick="location.href=\'detail?id='.$rowOuter['id'].'\';" style="cursor:pointer;">';
-													foreach ( $data ['entity']->getFieldObjectArray() as $rowInner ) {
-														//FieldTypeMapping
-														if ($rowInner->getFieldType() == 'string') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
-														else if ($rowInner->getFieldType() == 'number') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
-														else if ($rowInner->getFieldType() == 'reference') {
-															if ($rowOuter[$rowInner->getName().'_id'] != NULL) {
-																$referencedData = $rowInner->getReferencedField()->getEntity()->getData($rowOuter[$rowInner->getName().'_id']);
-																echo '<td>'.$referencedData[$rowInner->getReferencedField()->getName()].'</td>';
-															}
-															else {
-																echo '<td>NULL</td>';
-															}
-														}
-														else if ($rowInner->getFieldType() == 'id') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
+												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
+													//FieldTypeMapping
+													if ($fieldObject->getFieldType() == 'string') {
+														echo '
+														<fieldset class="form-group form-group-style">
+															<label for="textbox2">'.$fieldObject->getDisplayName().'</label> <input type="text" class="form-control" id="textbox2" name="'.$fieldObject->getName().'">
+														</fieldset>
+														';
+													} else if ($fieldObject->getFieldType() == 'number') {
+														echo '
+														<fieldset class="form-group form-group-style">
+															<label for="number12">'.$fieldObject->getDisplayName().'</label> <input type="number" class="form-control" id="number12" name="'.$fieldObject->getName().'">
+														</fieldset>
+														';
 													}
-													echo'</tr>';
 												}
 												?>
-											</tbody>
-											<tfoot>
-												<tr>
-													<?php
-													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
+												<h4 class="form-section">
+													Selection Entry
+												</h4>
+												<?php
+												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
+													//FieldTypeMapping
+													if ($fieldObject->getFieldType() == 'reference') {
+														echo '<div class="form-group"><h5>'.$fieldObject->getDisplayName().'</h5><select class="select2 form-control" name="'.$fieldObject->getName().'">';
+														$referencedDataArray = $fieldObject->getReferencedField()->getEntity()->getDataArray();
+														echo '<option value="--">--</option>';
+														foreach ($referencedDataArray as $referencedData) {
+															echo '<option value="'.$referencedData['id'].'">'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+														}
+														echo '</select></div>';
 													}
-													?>
-												</tr>
-											</tfoot>
-										</table>
+												}
+												?>
+											</div>
+											<div class="form-actions right">
+												<button type="button" class="btn btn-outline-warning mr-1" onclick="location.href='list';">
+													<i class="icon-cross2"></i> Cancel
+												</button>
+												<button type="submit" class="btn btn-outline-primary">
+													<i class="icon-check2"></i> Save
+												</button>
+											</div>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -808,6 +818,18 @@
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js"
 		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/forms/select/select2.full.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/katex.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/highlight.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/quill.min.js"
+		type="text/javascript"></script>
 	<!-- END PAGE VENDOR JS-->
 	<!-- BEGIN ROBUST JS-->
 	<!-- build:js app-assets/js/app.min.js-->
@@ -825,6 +847,11 @@
 	<!-- BEGIN PAGE LEVEL JS-->
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/tables/datatables/datatable-basic.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/forms/select/form-select2.js"
+		type="text/javascript"></script>
+	<script src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/editors/editor-quill.js"
 		type="text/javascript"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>

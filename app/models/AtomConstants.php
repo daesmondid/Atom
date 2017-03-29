@@ -1,10 +1,13 @@
 <?php
+
 class AtomConstants{
 	
-	public $baseUrl = 'http://192.168.188.21/atom/public';
-	public $dbServer = 'localhost';
-	public $dbUser = 'root';
-	public $dbPassword = '';
-	public $dbName = 'atom_footgoal';
+	const BASE_URL = 'http://localhost/atom/public';
+	const DB_SERVER = 'localhost';
+	const DB_USER = 'root';
+	const DB_PASSWORD = '';
+	const DB_NAME = 'atom_footgoal';
+	const DB_PREFIX = 'atom_';
+	const USERNAME = 'The Udaya Resort';
 
 }

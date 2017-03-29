@@ -40,6 +40,16 @@
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/extensions/pace.css">
 <link rel="stylesheet" type="text/css"
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/forms/selects/select2.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/katex.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/monokai-sublime.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.snow.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.bubble.css">
 <!-- END VENDOR CSS-->
 <!-- BEGIN ROBUST CSS-->
 <link rel="stylesheet" type="text/css"
@@ -105,13 +115,6 @@
 									alt="avatar"><i></i></span> <span class="user-name"><?=$data['atomConstants']::USERNAME?></span>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a href="#" class="dropdown-item"><i class="icon-head"></i> Edit
-									Profile</a> <a href="#" class="dropdown-item"><i
-									class="icon-mail6"></i> My Inbox</a> <a href="#"
-									class="dropdown-item"><i class="icon-clipboard2"></i> Task</a>
-								<a href="#" class="dropdown-item"><i class="icon-calendar5"></i>
-									Calender</a>
-								<div class="dropdown-divider"></div>
 								<a href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
 							</div></li>
 					</ul>
@@ -144,8 +147,8 @@
 						<li><a href="dashboard-fitness.html" data-i18n="nav.dash.fitness"
 							class="menu-item">Fitness</a></li>
 					</ul></li>
-				
-						
+
+
 				<li class=" navigation-header"><span data-i18n="nav.category.tables">System</span><i
 					data-toggle="tooltip" data-placement="right"
 					data-original-title="Tables" class="icon-ellipsis icon-ellipsis"></i>
@@ -681,69 +684,105 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Entities</h4>
+									<h4 class="card-title">View <?=$data['entity']->getDisplayName()?> Detail</h4>
 									<a class="heading-elements-toggle"><i
 										class="icon-ellipsis font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
+											<li><a href="edit?id=<?=$_GET['id']?>"><i class="icon-open"></i></a></li>
+											<li>
+												<a data-toggle="modal" data-target="#default"><i class="icon-trash4"></i></a>
+												<!-- Modal -->
+												<div class="modal fade text-xs-left" id="default"
+													tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+													aria-hidden="true">
+													<div class="modal-dialog" role="document">
+														<div class="modal-content">
+															<div class="modal-header">
+																<button type="button" class="close" data-dismiss="modal"
+																	aria-label="Close">
+																	<span aria-hidden="true">&times;</span>
+																</button>
+																<h4 class="modal-title" id="myModalLabel1">Delete Confirmation</h4>
+															</div>
+															<div class="modal-body">
+																<h5>Are you sure you want to delete?</h5>
+																<p>Once you delete the data can not be recovered.</p>
+															</div>
+															<div class="modal-footer">
+																<button type="button"
+																	class="btn grey btn-outline-secondary"
+																	data-dismiss="modal">No</button>
+																<button type="button" class="btn btn-outline-primary" onclick="location.href='delete?id=<?=$_GET['id']?>';">Yes</button>
+															</div>
+														</div>
+													</div>
+												</div>
+											</li>
 											<li><a href="add"><i class="icon-plus4"></i></a></li>
 											<li><a data-action="reload"><i class="icon-reload"></i></a></li>
 											<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+											<li><a href="list"><i class="icon-menu5"></i></a></li>
 										</ul>
 									</div>
 								</div>
-								<div class="card-body collapse in">
-									<div class="card-block card-dashboard">
-										<table
-											class="table table-striped table-bordered zero-configuration">
-											<thead>
-												<tr>
-													<?php
-													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
-													}
-													?>
-												</tr>
-											</thead>
-											<tbody>
+								<div class="card-body">
+									<div class="card-block">
+										<form class="form" action="addprocess" method="POST">
+											<div class="form-body">
+												<fieldset>
+													<div class="input-group">
+														<span class="input-group-addon" id="basic-addon1">Data ID</span>
+														<input type="text" class="form-control" aria-describedby="basic-addon1" readonly="readonly" name="id" value="<?=$_GET['id']?>">
+													</div>
+												</fieldset>
+												<br />
+												<h4 class="form-section">
+													General Entry
+												</h4>
 												<?php
-												foreach ($data['entity']->getDataArray() as $rowOuter) {
-													echo '<tr  onclick="location.href=\'detail?id='.$rowOuter['id'].'\';" style="cursor:pointer;">';
-													foreach ( $data ['entity']->getFieldObjectArray() as $rowInner ) {
-														//FieldTypeMapping
-														if ($rowInner->getFieldType() == 'string') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
-														else if ($rowInner->getFieldType() == 'number') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
-														else if ($rowInner->getFieldType() == 'reference') {
-															if ($rowOuter[$rowInner->getName().'_id'] != NULL) {
-																$referencedData = $rowInner->getReferencedField()->getEntity()->getData($rowOuter[$rowInner->getName().'_id']);
-																echo '<td>'.$referencedData[$rowInner->getReferencedField()->getName()].'</td>';
-															}
-															else {
-																echo '<td>NULL</td>';
-															}
-														}
-														else if ($rowInner->getFieldType() == 'id') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
+												$entityDataRow = $data['entity']->getData($_GET['id']);
+												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
+													//FieldTypeMapping
+													if ($fieldObject->getFieldType() == 'string') {
+														echo '
+														<fieldset class="form-group form-group-style">
+															<label for="textbox2">'.$fieldObject->getDisplayName().'</label> <input type="text" class="form-control" id="textbox2" name="'.$fieldObject->getName().'" value="'.$entityDataRow[$fieldObject->getName()].'" readonly="readonly">
+														</fieldset>
+														';
+													} else if ($fieldObject->getFieldType() == 'number') {
+														echo '
+														<fieldset class="form-group form-group-style">
+															<label for="number12">'.$fieldObject->getDisplayName().'</label> <input type="number" class="form-control" id="number12" name="'.$fieldObject->getName().'" value="'.$entityDataRow[$fieldObject->getName()].'" readonly="readonly">
+														</fieldset>
+														';
 													}
-													echo'</tr>';
 												}
 												?>
-											</tbody>
-											<tfoot>
-												<tr>
-													<?php
-													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
+												<h4 class="form-section">
+													Selection Entry
+												</h4>
+												<?php
+												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
+													//FieldTypeMapping
+													if ($fieldObject->getFieldType() == 'reference') {
+														echo '<div class="form-group"><h5>'.$fieldObject->getDisplayName().'</h5><select class="select2 form-control" name="'.$fieldObject->getName().'" disabled>';
+														$referencedDataArray = $fieldObject->getReferencedField()->getEntity()->getDataArray();
+														echo '<option value="--">--</option>';
+														foreach ($referencedDataArray as $referencedData) {
+															if ($entityDataRow[$fieldObject->getName().'_id'] == $referencedData['id']) {
+																echo '<option value="'.$referencedData['id'].'" selected>'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+															}
+															else {
+																echo '<option value="'.$referencedData['id'].'">'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+															}
+														}
+														echo '</select></div>';
 													}
-													?>
-												</tr>
-											</tfoot>
-										</table>
+												}
+												?>
+											</div>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -808,6 +847,18 @@
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js"
 		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/forms/select/select2.full.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/katex.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/highlight.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/quill.min.js"
+		type="text/javascript"></script>
 	<!-- END PAGE VENDOR JS-->
 	<!-- BEGIN ROBUST JS-->
 	<!-- build:js app-assets/js/app.min.js-->
@@ -825,6 +876,11 @@
 	<!-- BEGIN PAGE LEVEL JS-->
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/tables/datatables/datatable-basic.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/forms/select/form-select2.js"
+		type="text/javascript"></script>
+	<script src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/editors/editor-quill.js"
 		type="text/javascript"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>

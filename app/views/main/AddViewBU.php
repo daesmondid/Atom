@@ -10,7 +10,7 @@
 <meta name="keywords"
 	content="admin template, robust admin template, dashboard template, flat admin template, responsive admin template, web app">
 <meta name="author" content="PIXINVENT">
-<title>Atom - <?=$data['atomConstants']::USERNAME?></title>
+<title>Basic DataTables - Robust Admin Template</title>
 <link rel="apple-touch-icon" sizes="60x60"
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/ico/apple-icon-60.png">
 <link rel="apple-touch-icon" sizes="76x76"
@@ -40,6 +40,16 @@
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/extensions/pace.css">
 <link rel="stylesheet" type="text/css"
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/tables/datatable/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/forms/selects/select2.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/katex.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/monokai-sublime.min.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.snow.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.bubble.css">
 <!-- END VENDOR CSS-->
 <!-- BEGIN ROBUST CSS-->
 <link rel="stylesheet" type="text/css"
@@ -74,10 +84,10 @@
 						class="nav-link nav-menu-main menu-toggle hidden-xs"><i
 							class="icon-menu5 font-large-1"></i></a></li>
 					<li class="nav-item"><a href="index.html"
-						class="navbar-brand nav-link"> <img height="26" alt="branding logo"
-							src="<?=$data['atomConstants']::BASE_URL?>/images/main-logo-var.svg"
-							data-expand="<?=$data['atomConstants']::BASE_URL?>/images/main-logo-var.svg"
-							data-collapse="<?=$data['atomConstants']::BASE_URL?>/images/min-logo-var.svg"
+						class="navbar-brand nav-link"> <img alt="branding logo"
+							src="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/logo/robust-logo-light.png"
+							data-expand="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/logo/robust-logo-light.png"
+							data-collapse="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/logo/robust-logo-small.png"
 							class="brand-logo">
 					</a></li>
 					<li class="nav-item hidden-md-up float-xs-right"><a
@@ -102,7 +112,7 @@
 							class="dropdown-toggle nav-link dropdown-user-link"> <span
 								class="avatar avatar-online"> <img
 									src="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/portrait/small/avatar-s-1.png"
-									alt="avatar"><i></i></span> <span class="user-name"><?=$data['atomConstants']::USERNAME?></span>
+									alt="avatar"><i></i></span> <span class="user-name">John Doe</span>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a href="#" class="dropdown-item"><i class="icon-head"></i> Edit
@@ -112,13 +122,214 @@
 								<a href="#" class="dropdown-item"><i class="icon-calendar5"></i>
 									Calender</a>
 								<div class="dropdown-divider"></div>
-								<a href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
+								<a href="#" class="dropdown-item"><i class="icon-power3"></i>
+									Logout</a>
 							</div></li>
 					</ul>
 				</div>
 			</div>
 		</div>
 	</nav>
+	<div id="fullscreen-search" class="fullscreen-search">
+		<form class="fullscreen-search-form">
+			<input type="search" placeholder="Search..."
+				class="fullscreen-search-input">
+			<button type="submit" class="fullscreen-search-submit">Search</button>
+		</form>
+		<div class="fullscreen-search-content">
+			<div class="fullscreen-search-options">
+				<div class="row">
+					<div class="col-sm-12">
+						<fieldset>
+							<label class="custom-control custom-checkbox display-inline"> <input
+								type="checkbox" class="custom-control-input"> <span
+								class="custom-control-indicator"></span> <span
+								class="custom-control-description m-0">All</span>
+							</label> <label
+								class="custom-control custom-checkbox display-inline"> <input
+								type="checkbox" class="custom-control-input"> <span
+								class="custom-control-indicator"></span> <span
+								class="custom-control-description m-0">People</span>
+							</label> <label
+								class="custom-control custom-checkbox display-inline"> <input
+								type="checkbox" class="custom-control-input"> <span
+								class="custom-control-indicator"></span> <span
+								class="custom-control-description m-0">Project</span>
+							</label> <label
+								class="custom-control custom-checkbox display-inline"> <input
+								type="checkbox" class="custom-control-input"> <span
+								class="custom-control-indicator"></span> <span
+								class="custom-control-description m-0">Task</span>
+							</label>
+						</fieldset>
+					</div>
+				</div>
+			</div>
+			<div class="fullscreen-search-result mt-2">
+				<div class="row">
+					<div class="col-lg-4">
+						<h3>People</h3>
+						<div class="media">
+							<a href="#" class="media-left"> <img
+								src="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/portrait/small/avatar-s-2.png"
+								alt="Generic placeholder image"
+								class="media-object rounded-circle">
+							</a>
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">Karmen Dartez</a>
+								</h5>
+								<p class="mb-0">
+									<span class="tag tag-pill mr-1 tag-danger">JavaScript</span> <span
+										class="tag tag-pill mr-1 tag-primary">HTML</span>
+								</p>
+								<p>
+									<span class="font-weight-bold">Sr. Developer - </span><a
+										href="mailto:john@example.com">karmen@example.com</a>
+								</p>
+							</div>
+						</div>
+						<div class="media">
+							<a href="#" class="media-left"> <img
+								src="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/portrait/small/avatar-s-3.png"
+								alt="Generic placeholder image"
+								class="media-object rounded-circle">
+							</a>
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">Scot Loh</a>
+								</h5>
+								<p class="mb-0">
+									<span class="tag tag-pill mr-1 tag-danger">PhotoShop</span> <span
+										class="tag tag-pill mr-1 tag-warning">UX</span>
+								</p>
+								<p>
+									<span class="font-weight-bold">Sr. UI/UX Desugner - </span><a
+										href="mailto:john@example.com">scot@example.com</a>
+								</p>
+							</div>
+						</div>
+						<div class="media">
+							<a href="#" class="media-left"> <img
+								src="<?=$data['atomConstants']::BASE_URL?>/app-assets/images/portrait/small/avatar-s-5.png"
+								alt="Generic placeholder image"
+								class="media-object rounded-circle">
+							</a>
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">Kim Willmore</a>
+								</h5>
+								<p class="mb-0">
+									<span class="tag tag-pill mr-1 tag-warning">CSS</span> <span
+										class="tag tag-pill mr-1 tag-danger">HTML</span>
+								</p>
+								<p>
+									<span class="font-weight-bold">UI Developer - </span><a
+										href="mailto:john@example.com">kim@example.com</a>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<h3>Project</h3>
+						<div class="media">
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">WordPress Template Support</a>
+								</h5>
+								<progress value="25" max="100"
+									class="progress progress-xs progress-success mb-0">25%</progress>
+								<p class="mb-0">Collicitudin vel metus scelerisque ante commodo.</p>
+								<p>
+									<span class="tag tag-pill tag-success">In Progress</span> <span
+										class="tag tag-default tag-default float-sm-right">25%
+										Completed</span>
+								</p>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">Application UI/UX</a>
+								</h5>
+								<progress value="100" max="100"
+									class="progress progress-xs progress-info mb-0">100%</progress>
+								<p class="mb-0">Cetus scelerisque ante sollicitudin commodo.</p>
+								<p>
+									<span class="tag tag-pill tag-info">Completed</span> <span
+										class="tag tag-default tag-default float-sm-right">100%
+										Completed</span>
+								</p>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">SEO Project</a>
+								</h5>
+								<progress value="65" max="100"
+									class="progress progress-xs progress-warning mb-0">65%</progress>
+								<p class="mb-0">Notifications scelerisque ante sollicitudin
+									commodo.</p>
+								<p>
+									<span class="tag tag-pill tag-warning">Delayed</span> <span
+										class="tag tag-default tag-default float-sm-right">65%
+										Completed</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<h3>Task</h3>
+						<div class="media">
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">Create the new layout for menu</a>
+								</h5>
+								<p class="mb-0">Pcelerisque ulla vel metus ante sollicitudin
+									commodo.</p>
+								<p>
+									<span class="tag tag-pill tag-danger">Open</span> <span
+										class="tag tag-default tag-default tag-default tag-icon float-sm-right"><i
+										class="icon-calendar5"></i> 22 January, 16</span>
+								</p>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">Addition features on footer</a>
+								</h5>
+								<p class="mb-0">Tuaiulla vel metus scelerisque ante sollicitudin
+									commodo.</p>
+								<p>
+									<span class="tag tag-pill tag-warning">On hold</span> <span
+										class="tag tag-default tag-default tag-default tag-icon float-sm-right"><i
+										class="icon-calendar5"></i> 24 January, 16</span>
+								</p>
+							</div>
+						</div>
+						<div class="media">
+							<div class="media-body">
+								<h5 class="media-heading">
+									<a href="#">Remove TODO comments</a>
+								</h5>
+								<p class="mb-0">Mulullametu vel scelerisque ante sollicitudin
+									commodo.</p>
+								<p>
+									<span class="tag tag-pill tag-info">Resolved</span> <span
+										class="tag tag-default tag-default tag-default tag-icon float-sm-right"><i
+										class="icon-calendar5"></i> 25 January, 16</span>
+								</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<span class="fullscreen-search-close"></span>
+	</div>
+	<div class="fullscreen-search-overlay"></div>
 	<!-- ////////////////////////////////////////////////////////////////////////////-->
 	<!-- main menu-->
 	<div data-scroll-to-active="true"
@@ -144,8 +355,8 @@
 						<li><a href="dashboard-fitness.html" data-i18n="nav.dash.fitness"
 							class="menu-item">Fitness</a></li>
 					</ul></li>
-				
-						
+
+
 				<li class=" navigation-header"><span data-i18n="nav.category.tables">System</span><i
 					data-toggle="tooltip" data-placement="right"
 					data-original-title="Tables" class="icon-ellipsis icon-ellipsis"></i>
@@ -681,69 +892,188 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Entities</h4>
-									<a class="heading-elements-toggle"><i
-										class="icon-ellipsis font-medium-3"></i></a>
-									<div class="heading-elements">
-										<ul class="list-inline mb-0">
-											<li><a href="add"><i class="icon-plus4"></i></a></li>
-											<li><a data-action="reload"><i class="icon-reload"></i></a></li>
-											<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-										</ul>
+									<h4 class="card-title">Data ID</h4>
+								</div>
+								<div class="card-body">
+									<div class="card-block">
+										<fieldset class="form-group">
+											<input type="text" class="form-control" id="readonlyInput"
+												readonly="readonly" value="You can't change me. ;)">
+										</fieldset>
 									</div>
 								</div>
-								<div class="card-body collapse in">
-									<div class="card-block card-dashboard">
-										<table
-											class="table table-striped table-bordered zero-configuration">
-											<thead>
-												<tr>
-													<?php
-													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
-													}
-													?>
-												</tr>
-											</thead>
-											<tbody>
-												<?php
-												foreach ($data['entity']->getDataArray() as $rowOuter) {
-													echo '<tr  onclick="location.href=\'detail?id='.$rowOuter['id'].'\';" style="cursor:pointer;">';
-													foreach ( $data ['entity']->getFieldObjectArray() as $rowInner ) {
-														//FieldTypeMapping
-														if ($rowInner->getFieldType() == 'string') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
-														else if ($rowInner->getFieldType() == 'number') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
-														else if ($rowInner->getFieldType() == 'reference') {
-															if ($rowOuter[$rowInner->getName().'_id'] != NULL) {
-																$referencedData = $rowInner->getReferencedField()->getEntity()->getData($rowOuter[$rowInner->getName().'_id']);
-																echo '<td>'.$referencedData[$rowInner->getReferencedField()->getName()].'</td>';
-															}
-															else {
-																echo '<td>NULL</td>';
-															}
-														}
-														else if ($rowInner->getFieldType() == 'id') {
-															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
-														}
-													}
-													echo'</tr>';
-												}
-												?>
-											</tbody>
-											<tfoot>
-												<tr>
-													<?php
-													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
-													}
-													?>
-												</tr>
-											</tfoot>
-										</table>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">General Entry</h4>
+								</div>
+								<div class="card-body">
+									<div class="card-block">
+										<fieldset class="form-group form-group-style">
+											<label for="textbox2">Input text Style 2</label> <input
+												type="text" class="form-control" id="textbox2">
+										</fieldset>
+										<fieldset class="form-group form-group-style">
+											<label for="number12">Number</label> <input type="number"
+												class="form-control" id="number12">
+										</fieldset>
+										<fieldset class="form-group form-group-style    ">
+											<label for="selectOpt">Select</label> <select
+												class="form-control" id="selectOpt">
+												<option>Select Option</option>
+												<option>Option 1</option>
+												<option>Option 2</option>
+												<option>Option 3</option>
+												<option>Option 4</option>
+												<option>Option 5</option>
+											</select>
+										</fieldset>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Selection Entry</h4>
+								</div>
+								<div class="card-body">
+									<div class="card-block">
+										<div class="form-group">
+											<h5>Basic Select</h5>
+											<select class="select2 form-control">
+												<option value="AK">Alaska</option>
+												<option value="HI">Hawaii</option>
+												<option value="CA">California</option>
+												<option value="NV">Nevada</option>
+												<option value="OR">Oregon</option>
+												<option value="WA">Washington</option>
+												<option value="AZ">Arizona</option>
+												<option value="CO">Colorado</option>
+												<option value="ID">Idaho</option>
+												<option value="MT">Montana</option>
+												<option value="NE">Nebraska</option>
+												<option value="NM">New Mexico</option>
+												<option value="ND">North Dakota</option>
+												<option value="UT">Utah</option>
+												<option value="WY">Wyoming</option>
+												<option value="AL">Alabama</option>
+												<option value="AR">Arkansas</option>
+												<option value="IL">Illinois</option>
+												<option value="IA">Iowa</option>
+												<option value="KS">Kansas</option>
+												<option value="KY">Kentucky</option>
+												<option value="LA">Louisiana</option>
+												<option value="MN">Minnesota</option>
+												<option value="MS">Mississippi</option>
+												<option value="MO">Missouri</option>
+												<option value="OK">Oklahoma</option>
+												<option value="SD">South Dakota</option>
+												<option value="TX">Texas</option>
+												<option value="TN">Tennessee</option>
+												<option value="WI">Wisconsin</option>
+												<option value="CT">Connecticut</option>
+												<option value="DE">Delaware</option>
+												<option value="FL">Florida</option>
+												<option value="GA">Georgia</option>
+												<option value="IN">Indiana</option>
+												<option value="ME">Maine</option>
+												<option value="MD">Maryland</option>
+												<option value="MA">Massachusetts</option>
+												<option value="MI">Michigan</option>
+												<option value="NH">New Hampshire</option>
+												<option value="NJ">New Jersey</option>
+												<option value="NY">New York</option>
+												<option value="NC">North Carolina</option>
+												<option value="OH">Ohio</option>
+												<option value="PA">Pennsylvania</option>
+												<option value="RI">Rhode Island</option>
+												<option value="SC">South Carolina</option>
+												<option value="VT">Vermont</option>
+												<option value="VA">Virginia</option>
+												<option value="WV">West Virginia</option>
+											</select>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Editor</h4>
+								</div>
+								<div class="card-body">
+									<div class="card-block">
+										<div id="full-wrapper">
+											<div id="full-container">
+												<div class="editor">
+													<h1 class="ql-align-center">Quill Rich Text Editor</h1>
+													<p>
+														<br>
+													</p>
+													<p>
+														Quill is a free, <a
+															href="https://github.com/quilljs/quill/">open source</a>
+														WYSIWYG editor built for the modern web. With its <a
+															href="http://quilljs.com/docs/modules/">modular
+															architecture</a> and expressive <a
+															href="http://quilljs.com/docs/api/">API</a>, it is
+														completely customizable to fit any need.
+													</p>
+													<p>
+														<br>
+													</p>
+													<iframe class="ql-video ql-align-center"
+														src="https://www.youtube.com/embed/QHH3iSeDBLo?showinfo=0"
+														width="560" height="238"></iframe>
+													<p>
+														<br>
+													</p>
+													<p>
+														<br>
+													</p>
+													<h2 class="ql-align-center">Getting Started is Easy</h2>
+													<p>
+														<br>
+													</p>
+													<pre>// &lt;link href="https://cdn.quilljs.com/1.0.5/quill.snow.css" rel="stylesheet"&gt;
+	// &lt;script src="https://cdn.quilljs.com/1.0.5/quill.min.js" type="text/javascript"&gt;&lt;/script&gt;
+	var quill = new Quill('#editor', {
+	modules: {
+		toolbar: '#toolbar'
+	},
+	theme: 'snow'
+	});
+	// Open your browser's developer console to try out the API!
+											</pre>
+													<p>
+														<br>
+													</p>
+													<p>
+														<br>
+													</p>
+													<p class="ql-align-center">
+														<strong>Built with</strong>
+													</p>
+													<p class="ql-align-center">
+														&nbsp; <span class="ql-formula"
+															data-value="x^2 + (y - \sqrt[3]{x^2})^2 = 1"></span>&nbsp;
+													</p>
+													<p>
+														<br>
+													</p>
+												</div>
+											</div>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -808,6 +1138,18 @@
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js"
 		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/forms/select/select2.full.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/katex.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/highlight.min.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/quill.min.js"
+		type="text/javascript"></script>
 	<!-- END PAGE VENDOR JS-->
 	<!-- BEGIN ROBUST JS-->
 	<!-- build:js app-assets/js/app.min.js-->
@@ -825,6 +1167,11 @@
 	<!-- BEGIN PAGE LEVEL JS-->
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/tables/datatables/datatable-basic.js"
+		type="text/javascript"></script>
+	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/forms/select/form-select2.js"
+		type="text/javascript"></script>
+	<script src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/editors/editor-quill.js"
 		type="text/javascript"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>

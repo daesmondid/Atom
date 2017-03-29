@@ -1,98 +1,88 @@
 <?php
 
 $this->model('AtomDataControl');
+$this->model('AtomConstants');
 
-class Entity {
+class AtomEntity {
 	
+	private $id;
 	private $name;
-	private $display;
-	private $access;
+	private $displayName;
+	private $accessLevel;
 	private $group;
 	
-	public function __construct($name, $display, $access) {
-		
-		$this->name = $name;
-		$this->display = $display;
-		$this->access = $access;
-		
+	public function getId() {
+		return $this->id;
+	}
+	
+	public function setId($id) {
+		$this->id = $id;
 	}
 	
 	public function getName() {
-	
 		return $this->name;
-	
 	}
 	
-	public function getDisplay() {
-	
-		return $this->display;
-	
+	public function setName($name) {
+		$this->name = $name;
 	}
 	
-	public function getAccess() {
+	public function getDisplayName() {
+		return $this->displayName;
+	}
 	
-		return $this->access;
+	public function setDisplayName($displayName) {
+		$this->displayName = $displayName;
+	}
 	
+	public function getAccessLevel() {
+		return $this->accessLevel;
+	}
+	
+	public function setAccessLevel($accessLevel) {
+		$this->accessLevel = $accessLevel;
 	}
 	
 	public function getGroup() {
-	
 		return $this->group;
-	
-	}
-	
-	public function getFieldArray() {
-	
-		//TO-DO
-	
-	}
-	
-	public function setDisplay($display) {
-	
-		$this->display = $display;
-	
-	}
-	
-	public function setAccess($access) {
-	
-		$this->access = $access;
-	
 	}
 	
 	public function setGroup($group) {
-	
 		$this->group = $group;
-	
 	}
 	
-	public function addData($fields, $values) {
-		
-		//TO-DO
-		
+	public function addData($fieldNameArray, $valueArray) {
+		$atomDataControl = new AtomDataControl();
+		return $atomDataControl->addData($this, $fieldNameArray, $valueArray);
 	}
 	
-	public function deleteData ($dataId) {
-		
-		
-		
+	public function removeData($dataId) {
+		$atomDataControl = new AtomDataControl();
+		return $atomDataControl->removeData($this, $dataId);
 	}
 	
-	public function editData ($fields, $values, $dataId) {
-		
-		
-		
+	public function editData($dataId, $fieldNameArray, $valueArray) {
+		$atomDataControl = new AtomDataControl();
+		return $atomDataControl->editData($this, $dataId, $fieldNameArray, $valueArray);
 	}
 	
-	public function getDataArray() {
-		
-		
-		
+	public function getFieldObjectArray() {
+		$atomDataControl = new AtomDataControl();
+		return $atomDataControl->getFieldObjectArray($this);
 	}
 	
-	public function getData($id) {
-		
-		
-		
+	public function getDataArray($whereFilter = "true") {
+		$atomDataControl = new AtomDataControl();
+		return $atomDataControl->getDataArray($this->getName(), $whereFilter);
+	}
+	
+	public function getData($dataId) {
+		return $this->getDataArray("id = ".$dataId)[0];
+	}
+	
+	public function getPool() {
+		$atomDataControl = new AtomDataControl();
+		return $atomDataControl;
 	}
 	
 }
