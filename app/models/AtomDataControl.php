@@ -29,6 +29,7 @@ class AtomDataControl {
 	}
 	
 	public function getRow($query) {
+		//echo $query;
 		return $this->getRowArray($query)[0];
 	}
 	
@@ -101,9 +102,9 @@ class AtomDataControl {
 		return $entity;
 	}
 	
-	public function getFieldObjectByName($fieldName) {
+	public function getFieldObjectByName($fieldName, $fieldEntityId) {
 		$atomConstants = new AtomConstants();
-		$row = $this->getRow("SELECT * FROM ".$atomConstants::DB_PREFIX."sys_field WHERE name = \"".$fieldName."\"");
+		$row = $this->getRow("SELECT * FROM ".$atomConstants::DB_PREFIX."sys_field WHERE name = \"".$fieldName."\" and sys_entity_id = ".$fieldEntityId);
 		return $this->getFieldObjectByRow($row);
 	}
 	
@@ -151,6 +152,42 @@ class AtomDataControl {
 			array_push($objectArray, $this->getFieldObjectByRow($row));
 		}
 		return $objectArray;
+	}
+		
+	public function addEntityData($entity) {
+		$atomConstants = new AtomConstants();
+		if (!$this->execute("CREATE TABLE ".$atomConstants::DB_PREFIX.$entity->getName()." (id int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY) ENGINE=InnoDB DEFAULT CHARSET=latin1")) {
+			return 0;
+		}
+		if (!$this->execute("INSERT INTO atom_sys_field (name, display_name, sys_entity_id, sys_field_type_id) VALUES (\"id\", \"ID\", ".$entity->getId().", 4)")) {
+			return 0;
+		}
+		if (!$this->execute("INSERT INTO atom_sys_field_extension_id (id) VALUES ((SELECT id FROM atom_sys_field WHERE name = \"id\" and sys_entity_id = ".$entity->getId()."))")) {
+			return 0;
+		}
+		return 1;
+	}
+	
+	public function addFieldData($field) {
+		$atomConstants = new AtomConstants();
+		//FieldTypeMapping
+		if ($field->getFieldType() == 'string') {
+			$dataType = "TEXT";
+		}
+		else if ($field->getFieldType() == 'number') {
+			$dataType = "INT";
+		}
+		else if ($field->getFieldType() == 'reference') {
+			$dataType = "INT";
+		}
+		else {
+			$dataType = "TEXT";
+		}
+		//die("ALTER TABLE ".$field->getEntity()->getName()." ADD ".$field->getName()." ".$dataType." NOT NULL");
+		if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()." ".$dataType." NOT NULL")) {
+			return 0;
+		}
+		return 1;
 	}
 	
 }

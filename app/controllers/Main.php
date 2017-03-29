@@ -36,6 +36,12 @@
 		public function addData($entity) {
 			$fieldNameArray = [];
 			$valueArray = [];
+			if (isset($_GET['forwardFieldName'])) {
+				$atomDataControl = new AtomDataControl();
+				$atomConstants = new AtomConstants();
+				array_push($fieldNameArray, "id");
+				array_push($valueArray, $atomDataControl->getRow("SELECT * FROM ".$atomConstants::DB_PREFIX."sys_field WHERE name = \"".$_GET['forwardFieldName']."\" and sys_entity_id = ".$_GET['forwardFieldEntity'])['id']);
+			}
 			foreach ($entity->getFieldObjectArray() as $fieldObject) {
 				//FieldTypeMapping
 				if ($fieldObject->getFieldType() == 'string') {
@@ -52,19 +58,51 @@
 				}
 			}
 			if ($entity->addData($fieldNameArray, $valueArray)) {
+				if ($entity->getName() == "sys_entity") {
+					$atomDataControl = new AtomDataControl();
+					$atomDataControl->addEntityData($atomDataControl->getEntityObjectByName($_POST['name']));
+				}
+				if ($entity->getName() == "sys_field") {
+					$atomDataControl = new AtomDataControl();
+					//FieldTypeMapping
+					if ($_POST['sys_field_type'] == 1) {
+						header('Location: ../sys_field_extension_string/addprocess?forwardFieldName='.$_POST['name'].'&forwardFieldEntity='.$_POST['sys_entity']);
+						exit();
+					}
+					if ($_POST['sys_field_type'] == 2) {
+						header('Location: ../sys_field_extension_number/add?forwardFieldName='.$_POST['name'].'&forwardFieldEntity='.$_POST['sys_entity']);
+						exit();
+					}
+					if ($_POST['sys_field_type'] == 3) {
+						header('Location: ../sys_field_extension_reference/add?forwardFieldName='.$_POST['name'].'&forwardFieldEntity='.$_POST['sys_entity']);
+						exit();
+					}
+					if ($_POST['sys_field_type'] == 4) {
+						header('Location: ../sys_field_extension_id/addprocess?forwardFieldName='.$_POST['name'].'&forwardFieldEntity='.$_POST['sys_entity']);
+						exit();
+					}
+				}
+				if (isset($_GET['forwardFieldName'])) {
+					$atomDataControl = new AtomDataControl();
+					$atomDataControl->addFieldData($atomDataControl->getFieldObjectByName($_GET['forwardFieldName'], $_GET['forwardFieldEntity']));
+				}
 				header('Location: list?alert=addsuccess');
+				exit();
 			}
 			else {
 				header('Location: list?alert=addfailed');
+				exit();
 			}
 		}
 		
 		public function removeData($entity) {
 			if ($entity->removeData($_GET['id'])) {
 				header('Location: list?alert=deletesuccess');
+				exit();
 			}
 			else {
 				header('Location: list?alert=deletefailed');
+				exit();
 			}
 		}
 		
@@ -89,9 +127,11 @@
 			$entity->editData($_POST['id'], $fieldNameArray, $valueArray);
 			if ($entity->editData($_POST['id'], $fieldNameArray, $valueArray)) {
 				header('Location: list?alert=editsuccess');
+				exit();
 			}
 			else {
 				header('Location: list?alert=editfailed');
+				exit();
 			}
 		}
 		

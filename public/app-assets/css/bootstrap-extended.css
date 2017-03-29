@@ -679,6 +679,10 @@ button:focus {
     transition: 300ms ease all; }
     .header-navbar .navbar-header .navbar-brand {
       padding: 15px 6px; }
+    @media (min-width: 1367px) {
+        .header-navbar .navbar-header .navbar-brand {
+            padding: 19px 6px; }
+    }
   .header-navbar .navbar-container {
     padding: 0rem 1rem;
     height: 4rem;

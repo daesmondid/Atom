@@ -134,49 +134,20 @@
 				class="navigation navigation-main">
 				<?php
 				foreach ($data['entity']->getPool()->getPoolGroupDataArray() as $poolGroupDataRow) {
-					//FieldTypeMapping
-					echo '
-					<li class=" nav-item"><a href="#"><i class="icon-ios-folder"></i><span
-						data-i18n="nav.data_tables.main" class="menu-title">'.$poolGroupDataRow['display_name'].'</span></a>
-						<ul class="menu-content">
-							<li class="active"><a href="dt-basic-initialization.html"
-								data-i18n="nav.data_tables.dt_basic_initialization"
-								class="menu-item">Entities</a></li>
-							<li><a href="dt-advanced-initialization.html"
-								data-i18n="nav.data_tables.dt_advanced_initialization"
-								class="menu-item">Advanced initialisation</a></li>
-							<li><a href="dt-styling.html"
-								data-i18n="nav.data_tables.dt_styling" class="menu-item">Styling</a>
-							</li>
-							<li><a href="dt-data-sources.html"
-								data-i18n="nav.data_tables.dt_data_sources" class="menu-item">Data
-									Sources</a></li>
-							<li><a href="dt-api.html" data-i18n="nav.data_tables.dt_api"
-								class="menu-item">API</a></li>
-						</ul>
-					</li>
-					';
+					echo '<li class=" nav-item"><a href="#"><i class="icon-ios-folder"></i><span data-i18n="nav.data_tables.main" class="menu-title">'.$poolGroupDataRow['display_name'].'</span></a><ul class="menu-content">';
+					foreach ($data['entity']->getPool()->getPoolEntityDataArray() as $poolEntityDataRow) {
+						if ($poolEntityDataRow['sys_group_id'] == $poolGroupDataRow['id']) {
+							if ($poolEntityDataRow['name'] == $data['entity']->getName()) {
+								echo '<li class="active"><a href="../'.$poolEntityDataRow['name'].'/list" data-i18n="nav.data_tables.dt_basic_initialization" class="menu-item">'.$poolEntityDataRow['display_name'].'</a></li>';
+							}
+							else {
+								echo '<li><a href="../'.$poolEntityDataRow['name'].'/list" data-i18n="nav.data_tables.dt_basic_initialization" class="menu-item">'.$poolEntityDataRow['display_name'].'</a></li>';
+							}
+						}
+					}
+					echo '</ul></li>';
 				}
 				?>
-				<li class=" nav-item"><a href="#"><i class="icon-database"></i><span
-						data-i18n="nav.data_tables.main" class="menu-title">Data Schema</span></a>
-					<ul class="menu-content">
-						<li class="active"><a href="dt-basic-initialization.html"
-							data-i18n="nav.data_tables.dt_basic_initialization"
-							class="menu-item">Entities</a></li>
-						<li><a href="dt-advanced-initialization.html"
-							data-i18n="nav.data_tables.dt_advanced_initialization"
-							class="menu-item">Advanced initialisation</a></li>
-						<li><a href="dt-styling.html"
-							data-i18n="nav.data_tables.dt_styling" class="menu-item">Styling</a>
-						</li>
-						<li><a href="dt-data-sources.html"
-							data-i18n="nav.data_tables.dt_data_sources" class="menu-item">Data
-								Sources</a></li>
-						<li><a href="dt-api.html" data-i18n="nav.data_tables.dt_api"
-							class="menu-item">API</a></li>
-					</ul>
-				</li>
 			</ul>
 		</div>
 		<!-- /main menu content-->
@@ -277,10 +248,20 @@
 														echo '<option value="--">--</option>';
 														foreach ($referencedDataArray as $referencedData) {
 															if ($entityDataRow[$fieldObject->getName().'_id'] == $referencedData['id']) {
-																echo '<option value="'.$referencedData['id'].'" selected>'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+																if ($fieldObject->getReferencedField()->getEntity()->getName() == "sys_field") {
+																	echo '<option value="'.$referencedData['id'].'" selected>'.$data['entity']->getPool()->getEntityObjectById($referencedData['sys_entity_id'])->getDisplayName().$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+																}
+																else {
+																	echo '<option value="'.$referencedData['id'].'" selected>'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+																}
 															}
 															else {
-																echo '<option value="'.$referencedData['id'].'">'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+																if ($fieldObject->getReferencedField()->getEntity()->getName() == "sys_field") {
+																	echo '<option value="'.$referencedData['id'].'">'.$data['entity']->getPool()->getEntityObjectById($referencedData['sys_entity_id'])->getDisplayName().$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+																}
+																else {
+																	echo '<option value="'.$referencedData['id'].'">'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
+																}
 															}
 														}
 														echo '</select></div>';
