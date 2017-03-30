@@ -56,6 +56,14 @@
 					array_push($fieldNameArray, $fieldObject->getName().'_id');
 					array_push($valueArray, $_POST[$fieldObject->getName()]);
 				}
+				else if ($fieldObject->getFieldType() == 'richtext') {
+					array_push($fieldNameArray, $fieldObject->getName());
+					array_push($valueArray, "\"".htmlspecialchars($_POST[$fieldObject->getName()])."\"");
+				}
+				else if ($fieldObject->getFieldType() == 'cloudfile') {
+					array_push($fieldNameArray, $fieldObject->getName());
+					array_push($valueArray, "\"".htmlspecialchars($_POST[$fieldObject->getName()])."\"");
+				}
 			}
 			if ($entity->addData($fieldNameArray, $valueArray)) {
 				if ($entity->getName() == "sys_entity") {
@@ -79,6 +87,14 @@
 					}
 					if ($_POST['sys_field_type'] == 4) {
 						header('Location: ../sys_field_extension_id/addprocess?forwardFieldName='.$_POST['name'].'&forwardFieldEntity='.$_POST['sys_entity']);
+						exit();
+					}
+					if ($_POST['sys_field_type'] == 7) {
+						header('Location: ../sys_field_extension_richtext/addprocess?forwardFieldName='.$_POST['name'].'&forwardFieldEntity='.$_POST['sys_entity']);
+						exit();
+					}
+					if ($_POST['sys_field_type'] == 8) {
+						header('Location: ../sys_field_extension_cloudfile/addprocess?forwardFieldName='.$_POST['name'].'&forwardFieldEntity='.$_POST['sys_entity']);
 						exit();
 					}
 				}
@@ -122,6 +138,14 @@
 				else if ($fieldObject->getFieldType() == 'reference') {
 					array_push($fieldNameArray, $fieldObject->getName().'_id');
 					array_push($valueArray, $_POST[$fieldObject->getName()]);
+				}
+				else if ($fieldObject->getFieldType() == 'richtext') {
+					array_push($fieldNameArray, $fieldObject->getName());
+					array_push($valueArray, "\"".htmlspecialchars($_POST[$fieldObject->getName()])."\"");
+				}
+				else if ($fieldObject->getFieldType() == 'cloudfile') {
+					array_push($fieldNameArray, $fieldObject->getName());
+					array_push($valueArray, "\"".htmlspecialchars($_POST[$fieldObject->getName()])."\"");
 				}
 			}
 			$entity->editData($_POST['id'], $fieldNameArray, $valueArray);

@@ -138,6 +138,8 @@
 					echo '</ul></li>';
 				}
 				?>
+				<li class=" nav-item"><a href="../FileUpload"><i class="icon-upload"></i><span
+						data-i18n="nav.data_tables.main" class="menu-title">File Upload</span></a></li>
 			</ul>
 		</div>
 		<!-- /main menu content-->
@@ -152,7 +154,7 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">Entities</h4>
+									<h4 class="card-title"><?=$data['entity']->getDisplayName()?></h4>
 									<a class="heading-elements-toggle"><i
 										class="icon-ellipsis font-medium-3"></i></a>
 									<div class="heading-elements">
@@ -171,7 +173,13 @@
 												<tr>
 													<?php
 													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
+														//FieldTypeMapping
+														if ($fieldObject->getFieldType() == 'richtext') {
+															
+														}
+														else {
+															echo '<th>'.$fieldObject->getDisplayName().'</th>';
+														}
 													}
 													?>
 												</tr>
@@ -185,10 +193,10 @@
 														if ($rowInner->getFieldType() == 'string') {
 															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
 														}
-														else if ($rowInner->getFieldType() == 'number') {
+														if ($rowInner->getFieldType() == 'number') {
 															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
 														}
-														else if ($rowInner->getFieldType() == 'reference') {
+														if ($rowInner->getFieldType() == 'reference') {
 															if ($rowOuter[$rowInner->getName().'_id'] != NULL) {
 																$referencedData = $rowInner->getReferencedField()->getEntity()->getData($rowOuter[$rowInner->getName().'_id']);
 																echo '<td>'.$referencedData[$rowInner->getReferencedField()->getName()].'</td>';
@@ -197,8 +205,11 @@
 																echo '<td>NULL</td>';
 															}
 														}
-														else if ($rowInner->getFieldType() == 'id') {
+														if ($rowInner->getFieldType() == 'id') {
 															echo '<td>'.$rowOuter[$rowInner->getName()].'</td>';
+														}
+														if ($rowInner->getFieldType() == 'cloudfile') {
+															echo '<td>'.htmlspecialchars_decode($rowOuter[$rowInner->getName()]).'</td>';
 														}
 													}
 													echo'</tr>';
@@ -209,7 +220,13 @@
 												<tr>
 													<?php
 													foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-														echo '<th>'.$fieldObject->getDisplayName().'</th>';
+														//FieldTypeMapping
+														if ($fieldObject->getFieldType() == 'richtext') {
+															
+														}
+														else {
+															echo '<th>'.$fieldObject->getDisplayName().'</th>';
+														}
 													}
 													?>
 												</tr>

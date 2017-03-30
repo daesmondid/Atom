@@ -43,13 +43,7 @@
 <link rel="stylesheet" type="text/css"
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/forms/selects/select2.min.css">
 <link rel="stylesheet" type="text/css"
-	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/katex.min.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/monokai-sublime.min.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.snow.css">
-<link rel="stylesheet" type="text/css"
-	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/editors/quill/quill.bubble.css">
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/css/file-uploaders/dropzone.min.css">
 <!-- END VENDOR CSS-->
 <!-- BEGIN ROBUST CSS-->
 <link rel="stylesheet" type="text/css"
@@ -66,6 +60,8 @@
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/css/core/menu/menu-types/vertical-menu.css">
 <link rel="stylesheet" type="text/css"
 	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/css/core/menu/menu-types/vertical-overlay-menu.css">
+<link rel="stylesheet" type="text/css"
+	href="<?=$data['atomConstants']::BASE_URL?>/app-assets/css/plugins/file-uploaders/dropzone.css">
 <!-- END Page Level CSS-->
 <!-- BEGIN Custom CSS-->
 <link rel="stylesheet" type="text/css"
@@ -84,7 +80,8 @@
 						class="nav-link nav-menu-main menu-toggle hidden-xs"><i
 							class="icon-menu5 font-large-1"></i></a></li>
 					<li class="nav-item"><a href="index.html"
-						class="navbar-brand nav-link"> <img height="26" alt="branding logo"
+						class="navbar-brand nav-link"> <img height="26"
+							alt="branding logo"
 							src="<?=$data['atomConstants']::BASE_URL?>/images/main-logo-var.svg"
 							data-expand="<?=$data['atomConstants']::BASE_URL?>/images/main-logo-var.svg"
 							data-collapse="<?=$data['atomConstants']::BASE_URL?>/images/min-logo-var.svg"
@@ -115,7 +112,8 @@
 									alt="avatar"><i></i></span> <span class="user-name"><?=$data['atomConstants']::USERNAME?></span>
 						</a>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a href="#" class="dropdown-item"><i class="icon-power3"></i> Logout</a>
+								<a href="#" class="dropdown-item"><i class="icon-power3"></i>
+									Logout</a>
 							</div></li>
 					</ul>
 				</div>
@@ -133,22 +131,17 @@
 			<ul id="main-menu-navigation" data-menu="menu-navigation"
 				class="navigation navigation-main">
 				<?php
-				foreach ($data['entity']->getPool()->getPoolGroupDataArray() as $poolGroupDataRow) {
-					echo '<li class=" nav-item"><a href="#"><i class="icon-ios-folder"></i><span data-i18n="nav.data_tables.main" class="menu-title">'.$poolGroupDataRow['display_name'].'</span></a><ul class="menu-content">';
-					foreach ($data['entity']->getPool()->getPoolEntityDataArray() as $poolEntityDataRow) {
-						if ($poolEntityDataRow['sys_group_id'] == $poolGroupDataRow['id']) {
-							if ($poolEntityDataRow['name'] == $data['entity']->getName()) {
-								echo '<li class="active"><a href="../'.$poolEntityDataRow['name'].'/list" data-i18n="nav.data_tables.dt_basic_initialization" class="menu-item">'.$poolEntityDataRow['display_name'].'</a></li>';
-							}
-							else {
-								echo '<li><a href="../'.$poolEntityDataRow['name'].'/list" data-i18n="nav.data_tables.dt_basic_initialization" class="menu-item">'.$poolEntityDataRow['display_name'].'</a></li>';
-							}
+				foreach ( $data ['dataControl']->getPoolGroupDataArray () as $poolGroupDataRow ) {
+					echo '<li class=" nav-item"><a href="#"><i class="icon-ios-folder"></i><span data-i18n="nav.data_tables.main" class="menu-title">' . $poolGroupDataRow ['display_name'] . '</span></a><ul class="menu-content">';
+					foreach ( $data ['dataControl']->getPoolEntityDataArray () as $poolEntityDataRow ) {
+						if ($poolEntityDataRow ['sys_group_id'] == $poolGroupDataRow ['id']) {
+							echo '<li><a href="' . $poolEntityDataRow ['name'] . '/list" data-i18n="nav.data_tables.dt_basic_initialization" class="menu-item">' . $poolEntityDataRow ['display_name'] . '</a></li>';
 						}
 					}
 					echo '</ul></li>';
 				}
 				?>
-				<li class=" nav-item"><a href="../FileUpload"><i class="icon-upload"></i><span
+				<li class=" nav-item active"><a href="#"><i class="icon-upload"></i><span
 						data-i18n="nav.data_tables.main" class="menu-title">File Upload</span></a></li>
 			</ul>
 		</div>
@@ -164,153 +157,59 @@
 						<div class="col-xs-12">
 							<div class="card">
 								<div class="card-header">
-									<h4 class="card-title">View <?=$data['entity']->getDisplayName()?> Detail</h4>
+									<h4 class="card-title">File Upload</h4>
 									<a class="heading-elements-toggle"><i
 										class="icon-ellipsis font-medium-3"></i></a>
 									<div class="heading-elements">
 										<ul class="list-inline mb-0">
-											<li><a href="edit?id=<?=$_GET['id']?>"><i class="icon-open"></i></a></li>
-											<li>
-												<a data-toggle="modal" data-target="#default"><i class="icon-trash4"></i></a>
-												<!-- Modal -->
-												<div class="modal fade text-xs-left" id="default"
-													tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
-													aria-hidden="true">
-													<div class="modal-dialog" role="document">
-														<div class="modal-content">
-															<div class="modal-header">
-																<button type="button" class="close" data-dismiss="modal"
-																	aria-label="Close">
-																	<span aria-hidden="true">&times;</span>
-																</button>
-																<h4 class="modal-title" id="myModalLabel1">Delete Confirmation</h4>
-															</div>
-															<div class="modal-body">
-																<h5>Are you sure you want to delete?</h5>
-																<p>Once you delete the data can not be recovered.</p>
-															</div>
-															<div class="modal-footer">
-																<button type="button"
-																	class="btn grey btn-outline-secondary"
-																	data-dismiss="modal">No</button>
-																<button type="button" class="btn btn-outline-primary" onclick="location.href='delete?id=<?=$_GET['id']?>';">Yes</button>
-															</div>
-														</div>
-													</div>
-												</div>
-											</li>
-											<li><a href="add"><i class="icon-plus4"></i></a></li>
 											<li><a data-action="reload"><i class="icon-reload"></i></a></li>
 											<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
-											<li><a href="list"><i class="icon-menu5"></i></a></li>
 										</ul>
 									</div>
 								</div>
 								<div class="card-body">
 									<div class="card-block">
-										<form class="form" action="addprocess" method="POST">
-											<div class="form-body">
-												<fieldset>
-													<div class="input-group">
-														<span class="input-group-addon" id="basic-addon1">Data ID</span>
-														<input type="text" class="form-control" aria-describedby="basic-addon1" readonly="readonly" name="id" value="<?=$_GET['id']?>">
-													</div>
-												</fieldset>
-												<br />
-												<h4 class="form-section">
-													General Entry
-												</h4>
-												<?php
-												$entityDataRow = $data['entity']->getData($_GET['id']);
-												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-													//FieldTypeMapping
-													if ($fieldObject->getFieldType() == 'string') {
-														echo '
-														<fieldset class="form-group form-group-style">
-															<label for="textbox2">'.$fieldObject->getDisplayName().'</label> <input type="text" class="form-control" id="textbox2" name="'.$fieldObject->getName().'" value="'.$entityDataRow[$fieldObject->getName()].'" readonly="readonly">
-														</fieldset>
-														';
-													}
-													if ($fieldObject->getFieldType() == 'number') {
-														echo '
-														<fieldset class="form-group form-group-style">
-															<label for="number12">'.$fieldObject->getDisplayName().'</label> <input type="number" class="form-control" id="number12" name="'.$fieldObject->getName().'" value="'.$entityDataRow[$fieldObject->getName()].'" readonly="readonly">
-														</fieldset>
-														';
-													}
-												}
-												?>
-												<h4 class="form-section">
-													Selection Entry
-												</h4>
-												<?php
-												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-													//FieldTypeMapping
-													if ($fieldObject->getFieldType() == 'reference') {
-														echo '<div class="form-group"><h5>'.$fieldObject->getDisplayName().'</h5><select class="select2 form-control" name="'.$fieldObject->getName().'" disabled>';
-														$referencedDataArray = $fieldObject->getReferencedField()->getEntity()->getDataArray();
-														echo '<option value="--">--</option>';
-														foreach ($referencedDataArray as $referencedData) {
-															if ($entityDataRow[$fieldObject->getName().'_id'] == $referencedData['id']) {
-																if ($fieldObject->getReferencedField()->getEntity()->getName() == "sys_field") {
-																	echo '<option value="'.$referencedData['id'].'" selected>'.$data['entity']->getPool()->getEntityObjectById($referencedData['sys_entity_id'])->getDisplayName().$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
-																}
-																else {
-																	echo '<option value="'.$referencedData['id'].'" selected>'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
-																}
-															}
-															else {
-																if ($fieldObject->getReferencedField()->getEntity()->getName() == "sys_field") {
-																	echo '<option value="'.$referencedData['id'].'">'.$data['entity']->getPool()->getEntityObjectById($referencedData['sys_entity_id'])->getDisplayName().$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
-																}
-																else {
-																	echo '<option value="'.$referencedData['id'].'">'.$referencedData[$fieldObject->getReferencedField()->getName()].'</option>';
-																}
-															}
-														}
-														echo '</select></div>';
-													}
-													if ($fieldObject->getFieldType() == 'cloudfile') {
-														echo '<div class="form-group"><h5>'.$fieldObject->getDisplayName().'</h5><select class="select2 form-control" name="'.$fieldObject->getName().'" disabled>';
-														$path    = 'dropzone';
-														$files = scandir($path);
-														$files = array_diff(scandir($path), array('.', '..'));
-														echo '<option value="--">--</option>';
-														foreach ($files as $file) {
-															if (htmlspecialchars_decode($entityDataRow[$fieldObject->getName()]) == $file) {
-																echo '<option value="'.$file.'" selected>'.$file.'</option>';
-															}
-															else {
-																echo '<option value="'.$file.'">'.$file.'</option>';
-															}
-														}
-														echo '</select></div>';
-													}
-												}
-												?>
-												<h4 class="form-section">
-													Rich Text Entry
-												</h4>
-												<?php
-												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
-													//FieldTypeMapping
-													if ($fieldObject->getFieldType() == 'richtext') {
-														echo '
-															<input name="'.$fieldObject->getName().'" type="hidden">
-															<div class="row" id="'.$fieldObject->getName().'"><div class="col-md-12"><div id="full-wrapper"><div id="full-container"><div class="editorx">'.htmlspecialchars_decode($entityDataRow[$fieldObject->getName()]).'</div></div></div></div></div>
-															<script>
-															var form = document.querySelector(\'form\');
-															form.onsubmit = function() {
-															var content = document.querySelector(\'input[name='.$fieldObject->getName().']\');
-															content.value = $(\'#'.$fieldObject->getName().' .ql-editor\').html();
-															};
-															</script>
-														';
-													}
-												}
-												?>
-											</div>
+										<form action="FileUpload/uploadprocess" method="post"
+											enctype="multipart/form-data" class="dropzone"
+											id="dpz-multiple-files">
+											<input type="file" name="file" id="file"
+												style="display: none" />
 										</form>
+									</div>
+								</div>
+							</div>
+							<div class="card">
+								<div class="card-header">
+									<h4 class="card-title">Uploaded Files</h4>
+									<a class="heading-elements-toggle"><i
+										class="icon-ellipsis font-medium-3"></i></a>
+									<div class="heading-elements">
+										<ul class="list-inline mb-0">
+											<li><a data-action="reload"><i class="icon-reload"></i></a></li>
+											<li><a data-action="expand"><i class="icon-expand2"></i></a></li>
+										</ul>
+									</div>
+								</div>
+								<div class="card-body">
+									<div class="card-block">
+										<div class="table-responsive">
+											<table class="table">
+												<tbody>
+													<?php
+													$path    = 'dropzone';
+													$files = scandir($path);
+													$files = array_diff(scandir($path), array('.', '..'));
+													foreach ($files as $file) {
+														echo '<tr>';
+														echo '<td style="vertical-align:middle; width: 100%;">'.$file.'</td>';
+														echo '<td style="vertical-align:middle; text-align: right;"><button type="button" class="btn btn-info btn-min-width" onclick="window.open(\'dropzone/'.$file.'\');">View</button></td>';
+														echo '<td style="vertical-align:middle; text-align: right;"><button type="button" class="btn btn-danger btn-min-width" onclick="location.href=\'FileUpload/deletefile/'.$file.'\';">Delete</button></td>';
+														echo '</tr>';
+													}
+													?>
+												</tbody>
+											</table>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -370,6 +269,9 @@
 	<!-- BEGIN VENDOR JS-->
 	<!-- BEGIN PAGE VENDOR JS-->
 	<script
+		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/extensions/dropzone.min.js"
+		type="text/javascript"></script>
+	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/tables/jquery.dataTables.min.js"
 		type="text/javascript"></script>
 	<script
@@ -377,15 +279,6 @@
 		type="text/javascript"></script>
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/forms/select/select2.full.min.js"
-		type="text/javascript"></script>
-	<script
-		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/katex.min.js"
-		type="text/javascript"></script>
-	<script
-		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/highlight.min.js"
-		type="text/javascript"></script>
-	<script
-		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/vendors/js/editors/quill/quill.min.js"
 		type="text/javascript"></script>
 	<!-- END PAGE VENDOR JS-->
 	<!-- BEGIN ROBUST JS-->
@@ -407,8 +300,6 @@
 		type="text/javascript"></script>
 	<script
 		src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/forms/select/form-select2.js"
-		type="text/javascript"></script>
-	<script src="<?=$data['atomConstants']::BASE_URL?>/app-assets/js/scripts/editors/editor-quill.js"
 		type="text/javascript"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>

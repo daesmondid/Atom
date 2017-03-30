@@ -148,6 +148,8 @@
 					echo '</ul></li>';
 				}
 				?>
+				<li class=" nav-item"><a href="../FileUpload"><i class="icon-upload"></i><span
+						data-i18n="nav.data_tables.main" class="menu-title">File Upload</span></a></li>
 			</ul>
 		</div>
 		<!-- /main menu content-->
@@ -227,7 +229,8 @@
 															<label for="textbox2">'.$fieldObject->getDisplayName().'</label> <input type="text" class="form-control" id="textbox2" name="'.$fieldObject->getName().'" value="'.$entityDataRow[$fieldObject->getName()].'">
 														</fieldset>
 														';
-													} else if ($fieldObject->getFieldType() == 'number') {
+													}
+													if ($fieldObject->getFieldType() == 'number') {
 														echo '
 														<fieldset class="form-group form-group-style">
 															<label for="number12">'.$fieldObject->getDisplayName().'</label> <input type="number" class="form-control" id="number12" name="'.$fieldObject->getName().'" value="'.$entityDataRow[$fieldObject->getName()].'">
@@ -265,6 +268,43 @@
 															}
 														}
 														echo '</select></div>';
+													}
+													if ($fieldObject->getFieldType() == 'cloudfile') {
+														echo '<div class="form-group"><h5>'.$fieldObject->getDisplayName().'</h5><select class="select2 form-control" name="'.$fieldObject->getName().'">';
+														$path    = 'dropzone';
+														$files = scandir($path);
+														$files = array_diff(scandir($path), array('.', '..'));
+														echo '<option value="--">--</option>';
+														foreach ($files as $file) {
+															if (htmlspecialchars_decode($entityDataRow[$fieldObject->getName()]) == $file) {
+																echo '<option value="'.$file.'" selected>'.$file.'</option>';
+															}
+															else {
+																echo '<option value="'.$file.'">'.$file.'</option>';
+															}
+														}
+														echo '</select></div>';
+													}
+												}
+												?>
+												<h4 class="form-section">
+													Rich Text Entry
+												</h4>
+												<?php
+												foreach ($data['entity']->getFieldObjectArray() as $fieldObject) {
+													//FieldTypeMapping
+													if ($fieldObject->getFieldType() == 'richtext') {
+														echo '
+															<input name="'.$fieldObject->getName().'" type="hidden">
+															<div class="row" id="'.$fieldObject->getName().'"><div class="col-md-12"><div id="full-wrapper"><div id="full-container"><div class="editor">'.htmlspecialchars_decode($entityDataRow[$fieldObject->getName()]).'</div></div></div></div></div>
+															<script>
+															var form = document.querySelector(\'form\');
+															form.onsubmit = function() {
+															var content = document.querySelector(\'input[name='.$fieldObject->getName().']\');
+															content.value = $(\'#'.$fieldObject->getName().' .ql-editor\').html();
+															};
+															</script>
+														';
 													}
 												}
 												?>

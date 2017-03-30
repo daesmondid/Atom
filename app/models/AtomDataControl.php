@@ -1,5 +1,6 @@
 <?php
 
+//FieldTypeMapping
 $this->model('AtomConstants');
 $this->model('AtomEntity');
 $this->model('AtomField');
@@ -7,6 +8,8 @@ $this->model('AtomStringField');
 $this->model('AtomNumberField');
 $this->model('AtomReferenceField');
 $this->model('AtomIdField');
+$this->model('AtomRichTextField');
+$this->model('AtomCloudFileField');
 
 class AtomDataControl {
 	
@@ -35,6 +38,7 @@ class AtomDataControl {
 	
 	public function execute($query) {
 		$conn = $this->dbConnect();
+		//echo $query;
 		$result = $conn->query($query);
 		$conn->close();
 		return $result;
@@ -136,6 +140,14 @@ class AtomDataControl {
 				$field = new AtomIdField();
 				$innerRow = $this->getData("sys_field_extension_id", $row['id']);
 				break;
+			case 7:
+				$field = new AtomRichTextField();
+				$innerRow = $this->getData("sys_field_extension_richtext", $row['id']);
+				break;
+			case 8:
+				$field = new AtomCloudFileField();
+				$innerRow = $this->getData("sys_field_extension_cloudfile", $row['id']);
+				break;
 		}
 		$field->setId($row['id']);
 		$field->setName($row['name']);
@@ -172,21 +184,36 @@ class AtomDataControl {
 		$atomConstants = new AtomConstants();
 		//FieldTypeMapping
 		if ($field->getFieldType() == 'string') {
-			$dataType = "TEXT";
+			if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()." TEXT NOT NULL")) {
+				return 0;
+			}
 		}
 		else if ($field->getFieldType() == 'number') {
-			$dataType = "INT";
+			if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()." INT NOT NULL")) {
+				return 0;
+			}
 		}
 		else if ($field->getFieldType() == 'reference') {
-			$dataType = "INT";
+			if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()."_id INT NOT NULL")) {
+				return 0;
+			}
+		}
+		else if ($field->getFieldType() == 'richtext') {
+			if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()." TEXT NOT NULL")) {
+				return 0;
+			}
+		}
+		else if ($field->getFieldType() == 'cloudfile') {
+			if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()." TEXT NOT NULL")) {
+				return 0;
+			}
 		}
 		else {
-			$dataType = "TEXT";
+			if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()." TEXT NOT NULL")) {
+				return 0;
+			}
 		}
 		//die("ALTER TABLE ".$field->getEntity()->getName()." ADD ".$field->getName()." ".$dataType." NOT NULL");
-		if (!$this->execute("ALTER TABLE ".$atomConstants::DB_PREFIX.$field->getEntity()->getName()." ADD ".$field->getName()." ".$dataType." NOT NULL")) {
-			return 0;
-		}
 		return 1;
 	}
 	
